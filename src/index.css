@@ -1,0 +1,228 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #F5F5F5;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+  line-height: 200%;
+}
+
+/* --- CONTAINER --- */
+
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 800px;
+  padding: 3rem;
+  border-radius: 20px;
+  background-color: #fff;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+  border: 3px solid rgba(255, 255, 255, 0.18);
+}
+
+/* --- INPUT AREA --- */
+
+.input-area {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr auto;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+}
+
+.input-area input,
+.input-area select {
+  padding: 10px 17px;
+  font-size: 1.1rem;
+  border: 2px solid #ddd;
+  border-radius: 22px;
+  outline: none;
+}
+
+.input-area select {
+  color: #757575;
+}
+
+.input-area button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  padding: 8px;
+  font-size: 1.1rem;
+  color: #fff;
+  background-color: #4c8bf5;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.input-area button:hover {
+  transform: scale(1.1);
+  background-color: #a2bff0;
+}
+
+/* --- FILTER AREA --- */
+
+.filter-area {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.all-filter {
+  display: flex;
+  padding: 4px 10px;
+  align-items: center;
+  max-width: 100px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  background-color: #f5f5f5;
+}
+
+/* --- TASK LIST --- */
+
+.task-list {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.task-list li {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  font-size: 1.2rem;
+  color: #000;
+  border-bottom: 1px solid #ddd;
+  border-radius: 10px;
+  position: relative;
+  transition: box-shadow 0.2s ease;
+}
+
+.task-list li:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* --- CHECK TASKS --- */
+
+.task-list li .checkbox {
+  min-width: 25px;
+  height: 25px;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.task-list li .checkbox:checked {
+  background-color: #1aa260;
+  transform: scale(1.1);
+}
+
+.task-list li .checkbox:checked::before {
+  content: '✓';
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+
+.task-list li span {
+  flex: 1;
+  margin-left: 10px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.task-list li.completed span {
+  text-decoration: 2px line-through #000;
+  color: #000;
+}
+
+/* --- ACTION BUTTONS (delete / modify) --- */
+
+.task-list li .delete,
+.task-list li .modify {
+  min-width: 25px;
+  height: 25px;
+  border: none;
+  border-radius: 50%;
+  appearance: none;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.task-list li .delete { background-color: #de5246; }
+.task-list li .modify { background-color: #ffce44; }
+
+.task-list li .delete:hover {
+  transform: scale(1.1);
+  background-color: #df948e;
+}
+
+.task-list li .modify:hover {
+  transform: scale(1.1);
+  background-color: #f4de9f;
+}
+
+/* --- EDIT TASKS --- */
+
+.edit-input {
+  flex: 1;
+  padding: 5px;
+  font-size: 1.1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+/* --- PRIORITY BADGES --- */
+
+.priority-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100px;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.priority-badge[data-priority="Urgente"] { color:#b91c1c; background:#fee2e2; border-color:#fecaca; }
+.priority-badge[data-priority="Moyenne"] { color:#b45309; background:#fff7ed; border-color:#fed7aa; }
+.priority-badge[data-priority="Basse"]   { color:#065f46; background:#ecfdf5; border-color:#a7f3d0; }

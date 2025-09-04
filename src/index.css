@@ -109,6 +109,30 @@ h1 {
   background-color: #b1b1b1;
 }
 
+.filter-area button.selected {
+  transform: scale(1.05);
+  background-color: #b1b1b1;
+}
+
+/* -- SEARCH AREA --- */
+
+.search-area {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr auto;
+  gap: 10px;
+  width: 86%;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.search-area input {
+  padding: 10px 17px;
+  font-size: 1.1rem;
+  border: 2px solid #ddd;
+  border-radius: 22px;
+  outline: none;
+}
+
 /* --- TASK LIST --- */
 
 .task-list {
@@ -172,7 +196,7 @@ h1 {
   white-space: normal;
 }
 
-.task-list li.completed span {
+.task-list li span.completed {
   text-decoration: 2px line-through #000;
   color: #000;
 }
@@ -190,9 +214,6 @@ h1 {
   color: #fff;
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
-
-.task-list li .delete { background-color: #de5246; }
-.task-list li .modify { background-color: #ffce44; }
 
 .task-list li .delete:hover {
   transform: scale(1.1);
@@ -228,6 +249,9 @@ h1 {
   font-weight: 600;
   border: 1px solid transparent;
 }
+
+.task-list li .delete { background-color: #de5246; }
+.task-list li .modify { background-color: #ffce44; }
 
 .priority-badge[data-priority="High"] { color:#b91c1c; background:#fee2e2; border-color:#fecaca; }
 .priority-badge[data-priority="Medium"] { color:#b45309; background:#fff7ed; border-color:#fed7aa; }

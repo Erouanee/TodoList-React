@@ -1,7 +1,7 @@
 import { faPlus, faTrash, faPen } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FiltersBar, SearchBar } from './components/FiltersBar';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FiltersMenu } from './components/FiltersBar';
+import { InputBar } from "./components/InputBar"
 import { TodoItem } from './components/TodoItem';
 import React from 'react';
 
@@ -12,15 +12,16 @@ type Priorities = "High" | "Medium" | "Low";
 
 type Todo =
 {
-  task: string;
-  statut: Status;
-  priority: Priorities;
+  task : string;
+  status : Status;
+  priority : Priorities;
 };
- 
+
 export default function App()
 {
+  const [search, setSearchItem] = React.useState("");
   const [input, setInput] = React.useState<string>("");
-  const [statut, setStatus] = React.useState<Status>("Todo");
+  const [status, setStatus] = React.useState<Status>("Todo");
   const [priority, setPriority] = React.useState<Priorities>("Medium");
   const [filter, setFilter] = React.useState<Priorities | "All">("All");
 
@@ -28,9 +29,17 @@ export default function App()
   const initialTodos = savedTodos ? JSON.parse(savedTodos) : [];
   const [todos, setTodos] = React.useState<Todo[]>(initialTodos);
 
-  React.useEffect(() => {
+  React.useEffect(() =>
+  {
     localStorage.setItem("todos", JSON.stringify(todos))
   }, [todos])
+
+  const searchItem = (e: { target: { value: any; }; }) =>
+  {
+    let value = e.target.value;
+  
+    setSearchItem(value)
+  }
 
   function verifyExist(tasks: Todo[], task: string): boolean
   {
@@ -46,7 +55,7 @@ export default function App()
     setTodos(prev => {
       return prev.map(t => {
         if (t.task === task)
-          return {...t, statut: checked ? "Done" : "Todo"};
+          return {...t, status: checked ? "Done" : "Todo"};
         return t;
       });
     });
@@ -61,7 +70,7 @@ export default function App()
     const newTodo: Todo =
     {
       task,
-      statut: "Todo",
+      status: "Todo",
       priority,
     };
     setTodos(prev => [newTodo, ...prev]);
@@ -94,33 +103,21 @@ export default function App()
   const mediumCount = todos.filter((t) => t.priority === "Medium").length
   const highCount = todos.filter((t) => t.priority === "High").length
 
-
   return (
     <div className='todo-container'>
       <div className="todo-app">
 
         <h1>ToDo App :</h1>
 
-        <div className='input-area'>
-          <input required type="text" placeholder="Add a new task..." value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addTodo()}/>
-          <select required className="select" value={priority} onChange={(e) => setPriority(e.target.value as Priorities)}>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
-          </select>
-          <button onClick={addTodo} type="button" id="task-add">
-            <FontAwesomeIcon icon="plus" />
-          </button>
-        </div>
-
-        <FiltersMenu lowCount={lowCount} mediumCount={mediumCount} highCount={highCount} setFilter={setFilter}></FiltersMenu>
-
+        <InputBar input={input} priority={priority} addTodo={addTodo} setInput={setInput} setPriority={setPriority}/>
+        <FiltersBar lowCount={lowCount} mediumCount={mediumCount} highCount={highCount} setFilter={setFilter} currentFilter={filter}/>
+        <SearchBar searchItem={searchItem}></SearchBar>
         <ul className="task-list">
-          {filteredTodos.map((todo) => (
-            <TodoItem key={todo.task} todo={todo} toggleStatus={toggleStatus} modifyTodo={modifyTodo} deleteTodo={deleteTodo}/>
+          {filteredTodos.filter((todo) =>
+            (todo.task ?? "").toLowerCase().includes(search.toLowerCase())).map((todo) => (
+            <TodoItem key={todo.task} todo={todo} toggleStatus={toggleStatus} modifyTodo={modifyTodo} deleteTodo={deleteTodo} />
           ))}
         </ul>
-
       </div>
     </div>
   );

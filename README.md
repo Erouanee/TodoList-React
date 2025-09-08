@@ -11,11 +11,12 @@ TodoList-REACT is an interactive to-do list application built with React, design
   <li>Fill in the task name, choose the priority of your task and click on the blue "+" button to create the task</li>
 </ul>
 
-<img width="250" height="120" alt="image" src="https://github.com/user-attachments/assets/9d3dd5d3-09a6-45a7-876d-e45952c29771" />
+<img width="425" height="50" alt="image" src="https://github.com/user-attachments/assets/33265d64-38df-4190-88f2-3593accf544a" />
 
 <h3>To Filter the Task : </h3>
 
 <ul>
+  <li>Click the filter button to display the available filters.</li>  
   <li>Use the filter buttons to display only the tasks with a specific priority (High, Medium, or Low).</li>
   <li>Type a keyword in the search bar to quickly find matching tasks.</li>
 </ul>

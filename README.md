@@ -2,7 +2,7 @@
 
 TodoList-REACT is an interactive to-do list application built with React, designed to help you easily and intuitively take notes and organize your day efficiently.
 
-<img width="530" height="490" alt="image" src="https://github.com/user-attachments/assets/d2ba324e-6601-4689-832b-68a20d8696c3" />
+<img width="595" height="515" alt="image" src="https://github.com/user-attachments/assets/340f40b0-a877-423f-858a-6fe4ee818e41" />
 
 <h2>How to use it ?</h2>
 <h3>To add a Task : </h3>

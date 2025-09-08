@@ -1,19 +1,11 @@
 import { faPlus, faTrash, faPen, type IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import type { Todo } from "../App.tsx"
 
 library.add(faPlus, faTrash, faPen)
 
-type Status = "Done" | "Todo";
-type Priorities = "High" | "Medium" | "Low";
-
-type Todo = {
-  task : string;
-  status : Status;
-  priority : Priorities;
-};
-
-type Props = {
+type TodoItemProps = {
   todo : Todo;
   toggleStatus : (task: string, checked: boolean) => void;
   modifyTodo : (taskTitle: string) => void;
@@ -36,7 +28,7 @@ export const TaskButton = ({ icon, onClick, className, name }: TaskButtonProps) 
   );
 };
 
-export const TodoItem = ({ todo, toggleStatus, modifyTodo, deleteTodo }: Props) => {
+export const TodoItem = ({ todo, toggleStatus, modifyTodo, deleteTodo }: TodoItemProps) => {
   return (
     <li>
       <input type="checkbox" className="checkbox" checked={todo.status === "Done"} onChange={(e) => toggleStatus(todo.task, e.target.checked)}/>

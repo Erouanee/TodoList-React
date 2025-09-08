@@ -1,4 +1,4 @@
-type Props =
+type FilterBarProps =
 {
   lowCount : number;
   mediumCount : number;
@@ -35,7 +35,7 @@ const FilterButton = ({ name, count, onClick, isActive}: FilterButtonProps) =>
   );
 };
 
-export const FiltersBar = ({ lowCount, mediumCount, highCount, setFilter, currentFilter}: Props) =>
+export const FiltersBar = ({ lowCount, mediumCount, highCount, setFilter, currentFilter}: FilterBarProps) =>
 {
   let allCount = lowCount + mediumCount + highCount;
 
@@ -53,7 +53,12 @@ export const SearchBar = ({ searchItem } : SearchBarProps) =>
 {
   return (
     <div className="search-area">
-      <input type="text" name="searchBar" id="searchBar" placeholder="Search" onChange={searchItem}></input>
+      <input type="text" name="searchBar" id="searchBar" placeholder="Search" onChange={searchItem} />
+      {/* <select required className="select" value="High" onChange={(e) => setPriority(e.target.value)}>
+          <option value="High">Ascending</option>
+          <option value="Medium">Descending</option>
+          <option value="Low">Date</option>
+      </select> */}
     </div>
   );
 };

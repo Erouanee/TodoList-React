@@ -1,16 +1,17 @@
-import { faPlus, faTrash, faPen } from '@fortawesome/free-solid-svg-icons'
-import { FiltersBar, SearchBar } from './components/FiltersBar';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { InputBar } from "./components/InputBar"
-import { TodoItem } from './components/TodoItem';
+import { saveTodosToLocalStorage, loadTodosFromLocalStorage } from './utils/storage.ts';
+import { faPlus, faTrash, faPen } from '@fortawesome/free-solid-svg-icons';
+import { FiltersBar, SearchBar } from './components/FilterBar.tsx';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { AddTask } from './components/AddTask.tsx';
+import { InputBar } from "./components/InputBar";
 import React from 'react';
 
-library.add(faPlus, faTrash, faPen)
+library.add(faPlus, faTrash, faPen);
 
-type Status = "Done" | "Todo";
-type Priorities = "High" | "Medium" | "Low";
+export type Status = "Done" | "Todo";
+export type Priorities = "High" | "Medium" | "Low";
 
-type Todo =
+export type Todo =
 {
   task : string;
   status : Status;
@@ -19,20 +20,18 @@ type Todo =
 
 export default function App()
 {
-  const [search, setSearchItem] = React.useState("");
+  const [search, setSearchItem] = React.useState<string>("");
   const [input, setInput] = React.useState<string>("");
-  const [status, setStatus] = React.useState<Status>("Todo");
+  const [, setStatus] = React.useState<Status>("Todo");
   const [priority, setPriority] = React.useState<Priorities>("Medium");
   const [filter, setFilter] = React.useState<Priorities | "All">("All");
+  const [showFilters, setShowFilters] = React.useState<boolean>(false);
+  const toggleFilters = () => setShowFilters(prev => !prev);
+  const [todos, setTodos] = React.useState<Todo[]>(loadTodosFromLocalStorage);
 
-  const savedTodos = localStorage.getItem("todos");
-  const initialTodos = savedTodos ? JSON.parse(savedTodos) : [];
-  const [todos, setTodos] = React.useState<Todo[]>(initialTodos);
-
-  React.useEffect(() =>
-  {
-    localStorage.setItem("todos", JSON.stringify(todos))
-  }, [todos])
+  React.useEffect(() => {
+    saveTodosToLocalStorage(todos);
+  }, [todos]);
 
   const searchItem = (e: { target: { value: any; }; }) =>
   {
@@ -109,15 +108,14 @@ export default function App()
 
         <h1>ToDo App :</h1>
 
-        <InputBar input={input} priority={priority} addTodo={addTodo} setInput={setInput} setPriority={setPriority}/>
-        <FiltersBar lowCount={lowCount} mediumCount={mediumCount} highCount={highCount} setFilter={setFilter} currentFilter={filter}/>
-        <SearchBar searchItem={searchItem}></SearchBar>
-        <ul className="task-list">
-          {filteredTodos.filter((todo) =>
-            (todo.task ?? "").toLowerCase().includes(search.toLowerCase())).map((todo) => (
-            <TodoItem key={todo.task} todo={todo} toggleStatus={toggleStatus} modifyTodo={modifyTodo} deleteTodo={deleteTodo} />
-          ))}
-        </ul>
+        <InputBar input={input} priority={priority} addTodo={addTodo} setInput={setInput} setPriority={setPriority} toggleFilters={toggleFilters} filtersVisible={showFilters} />
+        {showFilters && (
+          <>
+            <FiltersBar lowCount={lowCount} mediumCount={mediumCount} highCount={highCount} setFilter={setFilter} currentFilter={filter} />
+            <SearchBar searchItem={searchItem} />
+          </>
+        )}
+        <AddTask filteredTodos={filteredTodos} search={search} toggleStatus={toggleStatus} modifyTodo={modifyTodo} deleteTodo={deleteTodo} />
       </div>
     </div>
   );

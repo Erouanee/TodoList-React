@@ -12,14 +12,13 @@ export type Status = "Done" | "Todo";
 export type Priorities = "High" | "Medium" | "Low";
 
 export type Todo =
-{
-  task : string;
-  status : Status;
-  priority : Priorities;
-};
+  {
+    task: string;
+    status: Status;
+    priority: Priorities;
+  };
 
-export default function App()
-{
+export default function App() {
   const [search, setSearchItem] = React.useState<string>("");
   const [input, setInput] = React.useState<string>("");
   const [, setStatus] = React.useState<Status>("Todo");
@@ -33,38 +32,28 @@ export default function App()
     saveTodosToLocalStorage(todos);
   }, [todos]);
 
-  const searchItem = (e: { target: { value: any; }; }) =>
-  {
-    let value = e.target.value;
-  
-    setSearchItem(value)
-  }
-
-  function verifyExist(tasks: Todo[], task: string): boolean
-  {
-    for (let t of tasks) {
+  function verifyExist(tasks: Todo[], task: string): boolean {
+    for (const t of tasks) {
       if (t.task.toLowerCase() === task.toLowerCase())
         return false;
     }
     return true;
   }
 
-  function toggleStatus(task: string, checked: boolean)
-  {
+  function toggleStatus(task: string, checked: boolean) {
     setTodos(prev => {
       return prev.map(t => {
         if (t.task === task)
-          return {...t, status: checked ? "Done" : "Todo"};
+          return { ...t, status: checked ? "Done" : "Todo" };
         return t;
       });
     });
   }
 
-  function addTodo()
-  {
+  function addTodo() {
     const task = input.trim();
     if (!task) return;
-    if(!verifyExist(todos, task)) return(alert(`"${task}" already exist !`));
+    if (!verifyExist(todos, task)) return (alert(`"${task}" already exist !`));
 
     const newTodo: Todo =
     {
@@ -79,24 +68,23 @@ export default function App()
     console.info(`"${task}" has been added.`);
   }
 
-  function deleteTodo(task: string)
-  {
+  function deleteTodo(task: string) {
     setTodos(prev => prev.filter(t => t.task !== task));
     console.info(`"${task}" has been deleted.`);
   }
 
-  function modifyTodo(taskTitle: string)
-  {
+  function modifyTodo(taskTitle: string) {
     console.log("Modifier la tâche :", taskTitle);
   }
 
-  let filteredTodos: Todo[] = [];
+  let filteredTodos: Todo[] = React.useMemo(() => {
+    return (
+      filter === "All" ? todos : todos.filter((todo) => todo.priority === filter)
+    )
+  }, [todos, filter]);
 
-  if (filter === "All") {
-    filteredTodos = todos;
-  } else {
-    filteredTodos = todos.filter((todo) => todo.priority === filter)
-  }
+  filteredTodos = filteredTodos.filter((todo) =>
+    todo.task.toLowerCase().includes(search.toLowerCase()))
 
   const lowCount = todos.filter((t) => t.priority === "Low").length
   const mediumCount = todos.filter((t) => t.priority === "Medium").length
@@ -112,10 +100,10 @@ export default function App()
         {showFilters && (
           <>
             <FiltersBar lowCount={lowCount} mediumCount={mediumCount} highCount={highCount} setFilter={setFilter} currentFilter={filter} />
-            <SearchBar searchItem={searchItem} />
+            <SearchBar searchItem={setSearchItem} />
           </>
         )}
-        <AddTask filteredTodos={filteredTodos} search={search} toggleStatus={toggleStatus} modifyTodo={modifyTodo} deleteTodo={deleteTodo} />
+        <AddTask filteredTodos={filteredTodos} toggleStatus={toggleStatus} modifyTodo={modifyTodo} deleteTodo={deleteTodo} />
       </div>
     </div>
   );

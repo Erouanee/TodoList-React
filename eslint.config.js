@@ -19,5 +19,16 @@ export default tseslint.config([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    overrides: [],
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      project: ['./tsconfig.json', './tsconfig.node.json'],
+    },
+    plugins: ['react', '@typescript-eslint', 'prettier'],
+    rules: {
+      'react/react-in-jsx-scope': 0,
+    },
   },
 ])

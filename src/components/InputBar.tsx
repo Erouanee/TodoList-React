@@ -19,14 +19,14 @@ type Props =
 export const InputBar = ({ input, priority, addTodo, setInput, setPriority, toggleFilters, filtersVisible } : Props) => {
   return (
     <div className='input-area'>
-        <input required type="text" placeholder="Add a new task..." value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addTodo()}/>
-        <select required className="select" value={priority} onChange={(e) => setPriority(e.target.value)}>
+        <input required type="text" placeholder="Add a new task..." value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addTodo()} aria-label="Add a new task" />
+        <select required className="select" value={priority} onChange={(e) => setPriority(e.target.value)} aria-label="priority-select">
           <option value="High">High</option>
           <option value="Medium">Medium</option>
           <option value="Low">Low</option>
         </select>
         <TaskButton icon={faFilter} onClick={toggleFilters} className="filter-hide" name={filtersVisible ? "Hide filters" : "Show filters"}/>
-        <TaskButton icon={faPlus} onClick={() => addTodo()} className="task-add" name={`Ajouter ${input}`}/>
+        <TaskButton icon={faPlus} onClick={() => addTodo()} className="task-add" name={`add-button`}/>
     </div>
   );
 };

@@ -30,14 +30,14 @@ export const TaskButton = ({ icon, onClick, className, name }: TaskButtonProps) 
 
 export const TodoItem = ({ todo, toggleStatus, modifyTodo, deleteTodo }: TodoItemProps) => {
   return (
-    <li>
-      <input type="checkbox" className="checkbox" checked={todo.status === "Done"} onChange={(e) => toggleStatus(todo.task, e.target.checked)}/>
+    <li aria-label={`todo-Item`}>
+      <input type="checkbox" className="checkbox" checked={todo.status === "Done"} onChange={(e) => toggleStatus(todo.task, e.target.checked)} aria-label={`checkbox${todo.task}`}/>
 
       <span className={`task-text ${todo.status === "Done" ? "completed" : ""}`}>{todo.task}</span>
       <span className="priority-badge" data-priority={todo.priority}>{todo.priority}</span>
 
-      <TaskButton icon={faPen} onClick={() => modifyTodo(todo.task)} className="modify" name={`Modifier ${todo.task}`}/>
-      <TaskButton icon={faTrash} onClick={() => deleteTodo(todo.task)} className="delete" name={`Supprimer ${todo.task}`}/>
+      <TaskButton icon={faPen} onClick={() => modifyTodo(todo.task)} className="modify" name={`edit-button${todo.task}`}/>
+      <TaskButton icon={faTrash} onClick={() => deleteTodo(todo.task)} className="delete" name={`delete-button${todo.task}`}/>
     </li>
   );
 };

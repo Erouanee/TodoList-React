@@ -68,7 +68,6 @@ describe("TodoList Test", () => {
       screen.getByRole("textbox", { name: /Add a new task/i }),
       "Test 3{Enter}",
     );
-
     await user.click(
       screen.getByRole("button", { name: /delete-buttonTest 3/ }),
     );
@@ -76,95 +75,66 @@ describe("TodoList Test", () => {
     const todoItems = within(todoList).getAllByRole("listitem");
 
     // EXPECT
-    // expect(todoItems.map(item => item.textContent)).toContain(['Test 2Medium', 'Test 1Medium']);
     expect(todoItems.map((item) => item.textContent)).not.toContain(
       "Test 3Medium",
     );
   });
 
-  //   it('should add a task with a filter', async () => {
-  //     // ARRANGE
-  //     render(<App />);
-  //     const user = userEvent.setup();
+  it("should add a task with a filter", async () => {
+    // ARRANGE
+    render(<App />);
+    const user = userEvent.setup();
+    const todoList = screen.getByRole("list", { name: /Tasks-list/i });
 
-  //     // ACT
-  //     await user.type(
-  //       screen.getByRole('textbox', { name: /Add a new task/i }),
-  //       'Test 4'
-  //     );
+    // ACT
+    await user.type(
+      screen.getByRole("textbox", { name: /Add a new task/i }),
+      "Test 4",
+    );
+    await user.selectOptions(
+      screen.getByRole("combobox", { name: /priority-select/i }),
+      "High",
+    );
+    await user.click(screen.getByRole("button", { name: /add-button/i }));
 
-  //     await user.selectOptions(
-  //       screen.getByRole('combobox', { name: /priority-select/i }),
-  //       'High'
-  //     );
+    const todoItems = within(todoList).getAllByRole("listitem");
 
-  //     await user.click(
-  //       screen.getByRole('button', { name: /add-button/i }),
-  //     );
+    // EXPECT
+    expect(todoItems.map((item) => item.textContent)).toContain("Test 4High");
+  });
 
-  //     // EXPECT
-  //     expect(
-  //       screen.getByRole("list", { name: /Tasks-list/i })
-  //     ).toHaveTextContent("Test 4High");
+  it("should test priority filter", async () => {
+    // ARRANGE
+    render(<App />);
+    const user = userEvent.setup();
+    const todoList = screen.getByRole("list", { name: /Tasks-list/i });
 
-  //   });
+    // ACT
+    await user.click(screen.getByRole("button", { name: /Show filters/i }));
+    await user.click(screen.getByRole("button", { name: /High-Filter/i }));
 
-  //   it('should test priority filter', async () => {
-  //     // ARRANGE
-  //     render(<App />);
-  //     const user = userEvent.setup();
+    const todoItems = within(todoList).getAllByRole("listitem");
 
-  //     // ACT
-  //     await user.type(
-  //       screen.getByRole('textbox', { name: /Add a new task/i }),
-  //       'Test 5{Enter}'
-  //     );
-  //     await user.click(
-  //       screen.getByRole('button', { name: /Show filters/i }),
-  //     );
-  //     await user.click(
-  //       screen.getByRole('button', { name: /High-Filter/i }),
-  //     );
+    //EXPECT
+    expect(todoItems.map((item) => item.textContent)).toContain("Test 4High");
+  });
 
-  //     screen.debug();
+  it("should test search filter", async () => {
+    // ARRANGE
+    render(<App />);
+    const user = userEvent.setup();
+    const todoList = screen.getByRole("list", { name: /Tasks-list/i });
 
-  //     const todoList = screen.getByRole("list", { name: /Tasks-list/i });
-  //     const todoItems = within(todoList).getAllByRole("listitem");
+    // ACT
+    await user.click(screen.getByRole("button", { name: /Show filters/i }));
+    await user.type(
+      screen.getByRole("textbox", { name: /search-bar/i }),
+      "Test 1{Enter}",
+    );
 
-  //     todoItems.forEach(item => {
-  //       expect(
-  //         item
-  //       ).toHaveTextContent("High")
-  //     });
+    const todoItems = within(todoList).getAllByRole("listitem");
 
-  //   });
-
-  //   it('should test search filter', async () => {
-  //     // ARRANGE
-  //     render(<App />);
-  //     const user = userEvent.setup();
-  //     // const todoList = screen.getByRole("list", { name: /Tasks-list/i });
-  //     // const todoItems = within(todoList).getAllByRole("listitem");
-
-  //     // ACT
-  //     await user.click(
-  //       screen.getByRole('button', { name: /Show filters/i }),
-  //     );
-  //     await user.type(
-  //       screen.getByRole('textbox', { name: /search-bar/i }),
-  //       'Test 1{Enter}'
-  //     );
-
-  //     //EXPECT
-  //     // expect(
-  //     //   screen.getByRole("list", { name: /Tasks-list/i })
-  //     // ).toHaveTextContent("Test 1");
-
-  //     // todoItems.forEach(item => {
-  //     //   expect(
-  //     //     item
-  //     //   ).toHaveTextContent("Test 1");
-  //     // });
-
-  //   });
+    //EXPECT
+    expect(todoItems.map((item) => item.textContent)).toContain("Test 1Medium");
+  });
 });

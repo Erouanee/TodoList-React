@@ -1,0 +1,25 @@
+name: CI
+on: push
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/cache@v4
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      
+      - name: Install Dependencies
+        run: "npm install"
+
+      - name: Launch Linter
+        run: "npm lint"
+
+      - name: Launch Test
+        run: "npm test"

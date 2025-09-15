@@ -21,5 +21,8 @@ jobs:
       - name: Launch Linter
         run: "npm run lint"
 
+      - name: Check Types
+        run: "npm run typecheck"
+
       - name: Launch Test
         run: "npm run test"

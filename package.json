@@ -7,9 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "test": "vitest",
-    "lint": "eslint --ext .js,.cjs,.ts,.tsx .",
+    "lint": "npx eslint --ext .tsx --ext .js src/",
     "lint:fix": "eslint --ext .js,.cjs,.ts,.tsx . --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.0.0",
@@ -40,9 +41,12 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.1",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
     "jsdom": "^25.0.1",
     "typescript": "~5.8.3",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
     "vite": "^7.1.2",
     "vitest": "^3.2.4"
   }

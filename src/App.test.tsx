@@ -1,15 +1,14 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import App from './App.tsx';
+import { describe, expect, it, vi, beforeEach } from "vitest";
+import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import App from "./App";
 
-describe('TodoList Test', () => {
-
+describe("TodoList Test", () => {
   beforeEach(() => {
-    vi.spyOn(window, 'alert').mockImplementation(() => { });
+    vi.spyOn(window, "alert").mockImplementation(() => {});
   });
 
-  it('should add a task test', async () => {
+  it("should add a task test", async () => {
     // ARRANGE
     render(<App />);
     const user = userEvent.setup();
@@ -17,161 +16,155 @@ describe('TodoList Test', () => {
 
     // ACT
     await user.type(
-      screen.getByRole('textbox', { name: /Add a new task/i }),
-      'Test 1{Enter}'
+      screen.getByRole("textbox", { name: /Add a new task/i }),
+      "Test 1{Enter}",
     );
     const todoItems = within(todoList).getAllByRole("listitem");
 
     // EXPECT
-    expect(todoItems.map(item => item.textContent)).toContain("Test 1Medium");
-
+    expect(todoItems.map((item) => item.textContent)).toContain("Test 1Medium");
   });
 
-  it('should warn if the task already exist', async () => {
+  it("should warn if the task already exist", async () => {
     // ARRANGE
     render(<App />);
     const user = userEvent.setup();
 
     // ACT
     await user.type(
-      screen.getByRole('textbox', { name: /Add a new task/i }),
-      'Test 2{Enter}'
+      screen.getByRole("textbox", { name: /Add a new task/i }),
+      "Test 2{Enter}",
     );
     await user.type(
-      screen.getByRole('textbox', { name: /Add a new task/i }),
-      'Test 2{Enter}'
+      screen.getByRole("textbox", { name: /Add a new task/i }),
+      "Test 2{Enter}",
     );
 
     // EXPECT
-    expect(
-      alert), (`"Test 2" already exist !`);
-
+    (expect(alert), `"Test 2" already exist !`);
   });
 
-  it('should check a task', async () => {
+  it("should check a task", async () => {
     // ARRANGE
     render(<App />);
     const user = userEvent.setup();
-    const checkbox = screen.getByRole('checkbox', { name: /checkboxTest 2/i });
+    const checkbox = screen.getByRole("checkbox", { name: /checkboxTest 2/i });
 
     // ACT
-    await user.click(
-      checkbox
-    );
+    await user.click(checkbox);
 
     // EXPECT
     expect(checkbox).toBeChecked();
-
   });
 
-  it('should delete a task', async () => {
+  it("should delete a task", async () => {
     // ARRANGE
     render(<App />);
     const user = userEvent.setup();
     const todoList = screen.getByRole("list", { name: /Tasks-list/i });
 
-    //ACT
+    // ACT
     await user.type(
-      screen.getByRole('textbox', { name: /Add a new task/i }),
-      'Test 3{Enter}'
+      screen.getByRole("textbox", { name: /Add a new task/i }),
+      "Test 3{Enter}",
     );
 
     await user.click(
-      screen.getByRole('button', { name: /delete-buttonTest 3/ }),
+      screen.getByRole("button", { name: /delete-buttonTest 3/ }),
     );
 
     const todoItems = within(todoList).getAllByRole("listitem");
 
     // EXPECT
     // expect(todoItems.map(item => item.textContent)).toContain(['Test 2Medium', 'Test 1Medium']);
-    expect(todoItems.map(item => item.textContent)).not.toContain('Test 3Medium');
-
+    expect(todoItems.map((item) => item.textContent)).not.toContain(
+      "Test 3Medium",
+    );
   });
 
-//   it('should add a task with a filter', async () => {
-//     // ARRANGE
-//     render(<App />);
-//     const user = userEvent.setup();
+  //   it('should add a task with a filter', async () => {
+  //     // ARRANGE
+  //     render(<App />);
+  //     const user = userEvent.setup();
 
-//     // ACT
-//     await user.type(
-//       screen.getByRole('textbox', { name: /Add a new task/i }),
-//       'Test 4'
-//     );
+  //     // ACT
+  //     await user.type(
+  //       screen.getByRole('textbox', { name: /Add a new task/i }),
+  //       'Test 4'
+  //     );
 
-//     await user.selectOptions(
-//       screen.getByRole('combobox', { name: /priority-select/i }),
-//       'High'
-//     );
+  //     await user.selectOptions(
+  //       screen.getByRole('combobox', { name: /priority-select/i }),
+  //       'High'
+  //     );
 
-//     await user.click(
-//       screen.getByRole('button', { name: /add-button/i }),
-//     );
+  //     await user.click(
+  //       screen.getByRole('button', { name: /add-button/i }),
+  //     );
 
-//     // EXPECT
-//     expect(
-//       screen.getByRole("list", { name: /Tasks-list/i })
-//     ).toHaveTextContent("Test 4High");
+  //     // EXPECT
+  //     expect(
+  //       screen.getByRole("list", { name: /Tasks-list/i })
+  //     ).toHaveTextContent("Test 4High");
 
-//   });
+  //   });
 
-//   it('should test priority filter', async () => {
-//     // ARRANGE
-//     render(<App />);
-//     const user = userEvent.setup();
+  //   it('should test priority filter', async () => {
+  //     // ARRANGE
+  //     render(<App />);
+  //     const user = userEvent.setup();
 
-//     // ACT
-//     await user.type(
-//       screen.getByRole('textbox', { name: /Add a new task/i }),
-//       'Test 5{Enter}'
-//     );
-//     await user.click(
-//       screen.getByRole('button', { name: /Show filters/i }),
-//     );
-//     await user.click(
-//       screen.getByRole('button', { name: /High-Filter/i }),
-//     );
+  //     // ACT
+  //     await user.type(
+  //       screen.getByRole('textbox', { name: /Add a new task/i }),
+  //       'Test 5{Enter}'
+  //     );
+  //     await user.click(
+  //       screen.getByRole('button', { name: /Show filters/i }),
+  //     );
+  //     await user.click(
+  //       screen.getByRole('button', { name: /High-Filter/i }),
+  //     );
 
-//     screen.debug();
+  //     screen.debug();
 
-//     const todoList = screen.getByRole("list", { name: /Tasks-list/i });
-//     const todoItems = within(todoList).getAllByRole("listitem");
+  //     const todoList = screen.getByRole("list", { name: /Tasks-list/i });
+  //     const todoItems = within(todoList).getAllByRole("listitem");
 
-//     todoItems.forEach(item => {
-//       expect(
-//         item
-//       ).toHaveTextContent("High")
-//     });
+  //     todoItems.forEach(item => {
+  //       expect(
+  //         item
+  //       ).toHaveTextContent("High")
+  //     });
 
-//   });
+  //   });
 
-//   it('should test search filter', async () => {
-//     // ARRANGE
-//     render(<App />);
-//     const user = userEvent.setup();
-//     // const todoList = screen.getByRole("list", { name: /Tasks-list/i });
-//     // const todoItems = within(todoList).getAllByRole("listitem");
+  //   it('should test search filter', async () => {
+  //     // ARRANGE
+  //     render(<App />);
+  //     const user = userEvent.setup();
+  //     // const todoList = screen.getByRole("list", { name: /Tasks-list/i });
+  //     // const todoItems = within(todoList).getAllByRole("listitem");
 
-//     // ACT
-//     await user.click(
-//       screen.getByRole('button', { name: /Show filters/i }),
-//     );
-//     await user.type(
-//       screen.getByRole('textbox', { name: /search-bar/i }),
-//       'Test 1{Enter}'
-//     );
+  //     // ACT
+  //     await user.click(
+  //       screen.getByRole('button', { name: /Show filters/i }),
+  //     );
+  //     await user.type(
+  //       screen.getByRole('textbox', { name: /search-bar/i }),
+  //       'Test 1{Enter}'
+  //     );
 
-//     //EXPECT
-//     // expect(
-//     //   screen.getByRole("list", { name: /Tasks-list/i })
-//     // ).toHaveTextContent("Test 1");
+  //     //EXPECT
+  //     // expect(
+  //     //   screen.getByRole("list", { name: /Tasks-list/i })
+  //     // ).toHaveTextContent("Test 1");
 
-//     // todoItems.forEach(item => {
-//     //   expect(
-//     //     item
-//     //   ).toHaveTextContent("Test 1");
-//     // });
+  //     // todoItems.forEach(item => {
+  //     //   expect(
+  //     //     item
+  //     //   ).toHaveTextContent("Test 1");
+  //     // });
 
-//   });
-
+  //   });
 });
